@@ -10,8 +10,6 @@ import path from 'path'
 const basedir = __dirname
 
 
-
-
 void async function () {
   let name = 'foo & bar'
   await $`mkdir ${name}`
