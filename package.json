@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "demoFile": "ts-node ./lib/demo/file.ts"
+    "file": "ts-node ./lib/demo/file.ts",
+    "demo": "ts-node ./lib/demo/demo.ts",
+    "start": "ts-node ./lib/index.ts"
   },
   "repository": {
     "type": "git",
@@ -18,9 +20,9 @@
   "homepage": "https://github.com/KangXinzhi/openapi-ts-codegen#readme",
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "ts-node": "^10.8.1",
+    "ts-node": "^10.4.0",
     "tslib": "^2.4.0",
     "typescript": "^4.7.4",
-    "zx": "^7.0.2"
+    "zx": "^4.0.2"
   }
 }
