@@ -13,19 +13,31 @@ function formatFolderName(sName: string) {
 export { formatFolderName }
 
 
-// 递归生解析schema
+// 递归解析schema
 function parserSchema(schema: any) {
-    let arr=[]
+    let result
     if (schema.type === 'object') {
+        result = {}
         let properties = schema.properties
+
         for (let key in properties) {
             let item = properties[key]
-            if (item.type === 'object') {
-                parserSchema(item)
+            let isRequired = schema.required.inCludes(item) ? '' : '?'
+            if (item.type === 'string') {
+                let a = `{${item} ${isRequired}: string}` as unknown as object
+                result = { ...result, ...a }
+            } else if (item.type === 'integer' || item.type === 'number') {
+                let a = `{${item} ${isRequired}: number}` as unknown as object
+                result = { ...result, ...a }
+            } else if (item.type === 'boolean') {
+                let a = `{${item} ${isRequired}: boolean}` as unknown as object
+                result = { ...result, ...a }
+            } else if (item.type === 'object'|| schema.type === 'array') {
+                let a = `{${item} ${isRequired}: ${parserSchema(item)}}` as unknown as object
+                result = { ...result, ...a }
             }
-            parserSchema(item)
         }
-        return [...arr]
+        return result
     } else if (schema.type === 'array') {
         parserSchema(schema.items)
     }
