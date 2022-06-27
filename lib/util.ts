@@ -11,3 +11,22 @@ function formatFolderName(sName: string) {
 }
 
 export { formatFolderName }
+
+
+// 递归生解析schema
+function parserSchema(schema: any) {
+    let arr=[]
+    if (schema.type === 'object') {
+        let properties = schema.properties
+        for (let key in properties) {
+            let item = properties[key]
+            if (item.type === 'object') {
+                parserSchema(item)
+            }
+            parserSchema(item)
+        }
+        return [...arr]
+    } else if (schema.type === 'array') {
+        parserSchema(schema.items)
+    }
+}

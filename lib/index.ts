@@ -69,7 +69,7 @@ async function createFolder(i: string, folder: any) {
     let folderUrl = './' + item.join('/').replace(/\/([^/]+)$/, '')
     let fileUrl = './' + item.join('/')
 
-    await $`mkdir ${folderUrl} -p`
+    await $`mkdir -p ${folderUrl}`
     await $`touch ${fileUrl}.ts`
     // await $`echo ${defaultUseBanner} >> ${fileUrl}.ts`
 
@@ -83,20 +83,20 @@ async function createFolder(i: string, folder: any) {
 ${defaultUseBanner}
 import { PaginationResponse } from '../common'
 export type TGet${name}ListRequest = {
-    page: number
-    pageSize: number
+  page: number
+  pageSize: number
 }
 
 export type TGet${name}ListItem = {
-    page: number
-    pageSize: number
+  page: number
+  pageSize: number
 }
 
 export type TGet${name}ListResponse = PaginationResponse<TGet${name}ListItem[]>
 
 const getExternalCourseList = get<
-TGet${name}ListResponse,
-TGet${name}ListRequest
+  TGet${name}ListResponse,
+  TGet${name}ListRequest
 >(\`\${uskidFrontendCommon.uskidGardenGoApi}\` as Url)
 
 export default getExternalCourseList
