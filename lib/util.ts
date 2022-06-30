@@ -56,7 +56,7 @@ function parserSchema(schema: any) {
 
   
 export const schema2ts = (schema: any) => {
-    // 1.替换json文件中的双引号 2.替换json文件中的\ 3.逗号结尾换行 4.{符号开头和}结尾换行
-    const result = `${parserSchema(schema) || '{}'}`.replace(/\"/g,'').replace(/\\/g,'').replace(/,/g,',\n').replace(/\{/g,'{\n').replace(/\}/g,'\n}')
+    // 1.替换json文件中的双引号 2.替换json文件中的\ 3.逗号结尾换行 4.{符号开头和}结尾换行 5.空对象中取消换行
+    const result = `${parserSchema(schema) || '{}'}`.replace(/\"/g,'').replace(/\\/g,'').replace(/,/g,',\n').replace(/\{/g,'{\n').replace(/\}/g,'\n}').replace(/{\n\n}/,'{}')
     return result
   }
