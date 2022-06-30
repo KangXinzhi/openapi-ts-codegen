@@ -52,9 +52,11 @@ function parserSchema(schema: any) {
       parserSchema(schema.items)
     }
   }
+
+
   
 export const schema2ts = (schema: any) => {
     // 1.替换json文件中的双引号 2.替换json文件中的\ 3.逗号结尾换行 4.{符号开头和}结尾换行
-    const result = `${parserSchema(schema)}`.replace(/\"/g,'').replace(/\\/g,'').replace(/,/g,',\n').replace(/\{/g,'{\n').replace(/\}/g,'\n}')
+    const result = `${parserSchema(schema) || '{}'}`.replace(/\"/g,'').replace(/\\/g,'').replace(/,/g,',\n').replace(/\{/g,'{\n').replace(/\}/g,'\n}')
     return result
   }

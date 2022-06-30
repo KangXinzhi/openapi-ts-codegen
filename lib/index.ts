@@ -65,7 +65,7 @@ async function createFolder(i: string, folder: any) {
     // 匹配url最后一个/后的正则 /\/([^/]+)$/
     let folderUrl = './' + item.join('/').replace(/\/([^/]+)$/, '')
     let fileUrl = './' + item.join('/')
-    let url = '/'+item.join('/')
+    let url = '/' + item.join('/')
 
     await $`mkdir -p ${folderUrl}`
     await $`touch ${fileUrl}.ts`
@@ -98,8 +98,26 @@ const getExternalCourseList = get<
 export default getExternalCourseList
             `
             await $`echo ${createFileContent} >> ${fileUrl}.ts`
+        } else {
+            const requestBody = schema2ts(folder.get?.requestBody?.content?.['application/json']?.schema||{})
+            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema)
+            const createFileContent = `
+${defaultUseBanner}
+import { PaginationResponse } from '../common'
+export type TGet${name}Request = ${requestBody}
+
+export type TGet${name}Response = ${responses}
+
+const get${name} = get<
+  TGet${name}Response,
+  TGet${name}Request
+>(\`\${uskidFrontendCommon.uskidGardenGoApi}${url}\` as Url)
+
+export default get${name}
+        `
+            await $`echo ${createFileContent} >> ${fileUrl}.ts`
         }
-    }else if(folder.post){
+    } else if (folder.post) {
         const requestBody = schema2ts(folder.post.requestBody.content['application/json'].schema)
         const responses = schema2ts(folder.post.responses[200].content['application/json'].schema)
         const createFileContent = `
