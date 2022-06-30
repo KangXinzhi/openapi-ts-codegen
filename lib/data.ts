@@ -1,4 +1,5 @@
-const data  = {
+const data  = 
+{
   "openapi": "3.0.1",
   "info": {
     "title": "Go",
@@ -11,120 +12,6 @@ const data  = {
     }
   ],
   "paths": {
-    "/external-course/list": {
-      "get": {
-        "summary": "机构素质课列表",
-        "x-apifox-folder": "ExternalCourse",
-        "x-apifox-status": "developing",
-        "deprecated": false,
-        "description": "",
-        "tags": [
-          "ExternalCourse"
-        ],
-        "parameters": [
-          {
-            "name": "partner",
-            "in": "query",
-            "description": "",
-            "required": true,
-            "example": "inside",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "token",
-            "in": "query",
-            "description": "",
-            "required": true,
-            "example": "FRDgliNoi2quATOxAzqnu0PqTA3vVIEN",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "ms",
-            "in": "query",
-            "description": "",
-            "required": true,
-            "example": "68",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "",
-            "required": true,
-            "example": "1",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "description": "",
-            "required": true,
-            "example": "10",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "title": "ID"
-                    },
-                    "courseName": {
-                      "type": "string",
-                      "title": "课程名称"
-                    },
-                    "agency": {
-                      "type": "string",
-                      "title": "授课机构"
-                    },
-                    "teacherName": {
-                      "type": "string",
-                      "title": "授课老师"
-                    },
-                    "status": {
-                      "type": "string",
-                      "title": "状态(\"normal\")"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "courseName",
-                    "agency",
-                    "teacherName",
-                    "status"
-                  ],
-                  "x-apifox-orders": [
-                    "id",
-                    "courseName",
-                    "agency",
-                    "teacherName",
-                    "status"
-                  ],
-                  "x-apifox-ignore-properties": []
-                },
-                "examples": {}
-              }
-            }
-          }
-        }
-      }
-    },
     "/external-course/test-list": {
       "get": {
         "summary": "机构素质课列表test",
@@ -207,28 +94,11 @@ const data  = {
                       "title": "授课机构",
                       "type": "boolean"
                     },
-                    "teacherName": {
+                    "teacheIds": {
                       "title": "",
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "number"
-                          },
-                          "name": {
-                            "type": "string"
-                          }
-                        },
-                        "x-apifox-orders": [
-                          "id",
-                          "name"
-                        ],
-                        "required": [
-                          "id",
-                          "name"
-                        ],
-                        "x-apifox-ignore-properties": []
+                        "type": "integer"
                       }
                     },
                     "status": {
@@ -271,6 +141,34 @@ const data  = {
                       ],
                       "x-apifox-ignore-properties": [],
                       "nullable": true
+                    },
+                    "teachers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "age": {
+                            "type": "string"
+                          }
+                        },
+                        "x-apifox-orders": [
+                          "id",
+                          "name",
+                          "age"
+                        ],
+                        "required": [
+                          "id",
+                          "name",
+                          "age"
+                        ],
+                        "x-apifox-ignore-properties": []
+                      }
                     }
                   },
                   "required": [
@@ -278,17 +176,19 @@ const data  = {
                     "agency",
                     "status",
                     "test1",
-                    "test3"
+                    "test3",
+                    "teachers"
                   ],
                   "x-apifox-orders": [
                     "id",
                     "courseName",
                     "agency",
-                    "teacherName",
+                    "teacheIds",
                     "status",
                     "test1",
                     "test2",
-                    "test3"
+                    "test3",
+                    "teachers"
                   ],
                   "x-apifox-ignore-properties": []
                 },
@@ -556,6 +456,120 @@ const data  = {
                   "properties": {},
                   "x-apifox-ignore-properties": [],
                   "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/external-course/list": {
+      "get": {
+        "summary": "机构素质课列表",
+        "x-apifox-folder": "ExternalCourse",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "ExternalCourse"
+        ],
+        "parameters": [
+          {
+            "name": "partner",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "inside",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "FRDgliNoi2quATOxAzqnu0PqTA3vVIEN",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ms",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "68",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "title": "ID"
+                    },
+                    "courseName": {
+                      "type": "string",
+                      "title": "课程名称"
+                    },
+                    "agency": {
+                      "type": "string",
+                      "title": "授课机构"
+                    },
+                    "teacherName": {
+                      "type": "string",
+                      "title": "授课老师"
+                    },
+                    "status": {
+                      "type": "string",
+                      "title": "状态(\"normal\")"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "courseName",
+                    "agency",
+                    "teacherName",
+                    "status"
+                  ],
+                  "x-apifox-orders": [
+                    "id",
+                    "courseName",
+                    "agency",
+                    "teacherName",
+                    "status"
+                  ],
+                  "x-apifox-ignore-properties": []
                 },
                 "examples": {}
               }

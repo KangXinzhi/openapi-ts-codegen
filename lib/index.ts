@@ -1,6 +1,7 @@
 import data from './data'
 import 'zx/globals'
 import { formatFolderName } from './util'
+import { schema2ts } from './util'
 
 const defaultUseBanner = `
 /**
@@ -24,10 +25,6 @@ void async function () {
         // @ts-ignore
         createFolder(item, data?.paths?.[item])
     }
-
-    // makeDir()
-    // console.log()
-
 }()
 
 // 用户输入跟文件夹方法 
@@ -68,6 +65,7 @@ async function createFolder(i: string, folder: any) {
     // 匹配url最后一个/后的正则 /\/([^/]+)$/
     let folderUrl = './' + item.join('/').replace(/\/([^/]+)$/, '')
     let fileUrl = './' + item.join('/')
+    let url = '/'+item.join('/')
 
     await $`mkdir -p ${folderUrl}`
     await $`touch ${fileUrl}.ts`
@@ -79,6 +77,7 @@ async function createFolder(i: string, folder: any) {
         // 判断get请求是否是分页列表
         const isPageSize = folder.get.parameters.findIndex((it: { name: string }) => it.name === 'pageSize') > -1
         if (isPageSize) {
+            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema)
             const createFileContent = `
 ${defaultUseBanner}
 import { PaginationResponse } from '../common'
@@ -87,24 +86,37 @@ export type TGet${name}ListRequest = {
   pageSize: number
 }
 
-export type TGet${name}ListItem = {
-  page: number
-  pageSize: number
-}
+export type TGet${name}ListItem = ${responses}
 
 export type TGet${name}ListResponse = PaginationResponse<TGet${name}ListItem[]>
 
 const getExternalCourseList = get<
   TGet${name}ListResponse,
   TGet${name}ListRequest
->(\`\${uskidFrontendCommon.uskidGardenGoApi}\` as Url)
+>(\`\${uskidFrontendCommon.uskidGardenGoApi}${url}\` as Url)
 
 export default getExternalCourseList
             `
             await $`echo ${createFileContent} >> ${fileUrl}.ts`
         }
+    }else if(folder.post){
+        const requestBody = schema2ts(folder.post.requestBody.content['application/json'].schema)
+        const responses = schema2ts(folder.post.responses[200].content['application/json'].schema)
+        const createFileContent = `
+${defaultUseBanner}
+import { PaginationResponse } from '../common'
+export type TPost${name}Request = ${requestBody}
 
+export type TPost${name}Response = ${responses}
 
+const post${name} = post<
+  TPost${name}Response,
+  TPost${name}Request
+>(\`\${uskidFrontendCommon.uskidGardenGoApi}${url}\` as Url)
+
+export default post${name}
+        `
+        await $`echo ${createFileContent} >> ${fileUrl}.ts`
     }
 }
 
