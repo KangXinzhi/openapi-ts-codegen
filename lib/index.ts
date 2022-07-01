@@ -8,10 +8,8 @@ const defaultUseBanner = `
  * scripts-fence ${new Date()}
  */
 
-import { BaseOptions } from '@ahooksjs/use-request/lib/types'
-import { useRequest } from 'ahooks'
 import { get, post, Url } from '@/utils/request'
-
+import { uskidFrontendCommon } from '@/config.json'
 `
 
 void async function () {
@@ -21,7 +19,6 @@ void async function () {
     await $`mkdir ${projectName}`
     await cd(`${projectName}`)
     for (let item in data.paths) {
-        console.log(item)
         // @ts-ignore
         createFolder(item, data?.paths?.[item])
     }
@@ -56,28 +53,36 @@ async function createFolder1(i: string) {
 
 /**
  *  方案二
- *  根据path mkdir-p 批量生成文件夹，根据生成的文件夹生成ts文件
+ *  根据path mkdir-p 批量生成文件夹，根据生成的文件成ts文件
  * */
 async function createFolder(i: string, folder: any) {
+    const methods = folder.get ? 'get' : 'post'
     // 地址以/开头的去掉第一个/后，转化为数组
     let item = i.replace(/^\//, '').split('/').map(item => formatFolderName(item))
-    const name = formatFolderName(item.join('-'))
+
+    // 文件名称字母大写
+    const name = item[item.length - 1].replace(/^\w/, (s) => s.toUpperCase())
+    // 数组最后一项为文件名称加入get或post前缀
+
+    const fileItem = item.filter((i, index) => index < item.length - 1)
+
     // 匹配url最后一个/后的正则 /\/([^/]+)$/
-    let folderUrl = './' + item.join('/').replace(/\/([^/]+)$/, '')
-    let fileUrl = './' + item.join('/')
+    let folderUrl = './' + fileItem.join('/')
+    let fileName = `${folderUrl}/${methods}${name}.ts`
     let url = '/' + item.join('/')
 
+
     await $`mkdir -p ${folderUrl}`
-    await $`touch ${fileUrl}.ts`
+    await $`touch ${fileName}`
     // await $`echo ${defaultUseBanner} >> ${fileUrl}.ts`
 
     // 判断是get请求还是post请求
     if (folder.get) {
 
-        // 判断get请求是否是分页列表
+        // 判断get请求是分页列表
         const isPageSize = folder.get.parameters.findIndex((it: { name: string }) => it.name === 'pageSize') > -1
         if (isPageSize) {
-            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema)
+            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema.properties.data)
             const createFileContent = `
 ${defaultUseBanner}
 import { PaginationResponse } from '../common'
@@ -97,13 +102,14 @@ const getExternalCourseList = get<
 
 export default getExternalCourseList
             `
-            await $`echo ${createFileContent} >> ${fileUrl}.ts`
+            await $`echo ${createFileContent} >> ${fileName}`
+            await $`npx prettier --write ${fileName}`
         } else {
-            const requestBody = schema2ts(folder.get?.requestBody?.content?.['application/json']?.schema||{})
-            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema)
+            // 判断get请求不是分页列表
+            const requestBody = schema2ts(folder.get?.requestBody?.content?.['application/json']?.schema || {})
+            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema.properties.data)
             const createFileContent = `
 ${defaultUseBanner}
-import { PaginationResponse } from '../common'
 export type TGet${name}Request = ${requestBody}
 
 export type TGet${name}Response = ${responses}
@@ -115,14 +121,15 @@ const get${name} = get<
 
 export default get${name}
         `
-            await $`echo ${createFileContent} >> ${fileUrl}.ts`
+            await $`echo ${createFileContent} >> ${fileName}`
+            await $`npx prettier --write ${fileName}`
         }
     } else if (folder.post) {
-        const requestBody = schema2ts(folder.post.requestBody.content['application/json'].schema)
-        const responses = schema2ts(folder.post.responses[200].content['application/json'].schema)
+        // post请求
+        const requestBody = schema2ts(folder.post.requestBody.content['application/json'].schema || {})
+        const responses = schema2ts(folder.post.responses[200].content['application/json'].schema.properties.data)
         const createFileContent = `
 ${defaultUseBanner}
-import { PaginationResponse } from '../common'
 export type TPost${name}Request = ${requestBody}
 
 export type TPost${name}Response = ${responses}
@@ -134,7 +141,8 @@ const post${name} = post<
 
 export default post${name}
         `
-        await $`echo ${createFileContent} >> ${fileUrl}.ts`
+        await $`echo ${createFileContent} >> ${fileName}`
+        await $`npx prettier --write ${fileName}`
     }
 }
 

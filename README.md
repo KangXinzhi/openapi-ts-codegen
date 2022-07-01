@@ -19,12 +19,16 @@ Codegen
 ### 设计思路：
 	1.生成一个api数组文件，可以遍历所有的api地址，请求数据
 	2.根据输入的项目名称生成一个根文件夹
-	3.遍历每个api生成数据中的paths，正则匹配路径，最后一个/之后的为文件名称，之前的是文件夹的名称。每个文件生成的同时生成对应的useService文件
-	4.useService文件中引入同一路径下的接口文件，并使用useRequest方法包裹，向外抛出
+	3.遍历每个api生成数据中的paths，正则匹配路径，最后一个/之后的为文件名称，之前的是文件夹的名称
+	4.通过path`mkdir -p`命令生成文件，通过`touch ${fileUrl}.ts`生成文件
+	5.判断paths下的使用的时get或post方法向文件中添加不同的内容(方法：`echo ${createFileContent} >> ${fileUrl}.ts`)
+	6.递归schema生成接口类型，添加到文件中
+	7.生产的文件通过npx prettier --write 格式化文件
 
 ### 依赖库：
     1.ts-node  
-    2.zx  
+    2.zx
+	3.prettier  
 
 ### 使用流程：
 	1.将apifox导出的文件地址，复制到项目的api文件中
