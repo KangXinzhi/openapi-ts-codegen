@@ -55,10 +55,10 @@ async function createFolder1(i: string) {
  *  方案二
  *  根据path mkdir-p 批量生成文件夹，根据生成的文件成ts文件
  * */
-async function createFolder(i: string, folder: any) {
+async function createFolder(url: string, folder: any) {
     const methods = folder.get ? 'get' : 'post'
     // 地址以/开头的去掉第一个/后，转化为数组
-    let item = i.replace(/^\//, '').split('/').map(item => formatFolderName(item))
+    let item = url.replace(/^\//, '').split('/').map(item => formatFolderName(item))
 
     // 文件名称字母大写
     const name = item[item.length - 1].replace(/^\w/, (s) => s.toUpperCase())
@@ -69,8 +69,6 @@ async function createFolder(i: string, folder: any) {
     // 匹配url最后一个/后的正则 /\/([^/]+)$/
     let folderUrl = './' + fileItem.join('/')
     let fileName = `${folderUrl}/${methods}${name}.ts`
-    let url = '/' + item.join('/')
-
 
     await $`mkdir -p ${folderUrl}`
     await $`touch ${fileName}`
