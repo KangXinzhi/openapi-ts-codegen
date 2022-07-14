@@ -15,12 +15,12 @@ export { formatFolderName }
 
 // 递归解析schema
 function parserSchema(schema: any): any {
-  if (schema.type === 'object') {
+  if (schema?.type === 'object') {
     let result = {}
     let properties = schema.properties
     for (let key in properties) {
       let item = properties[key]
-      let isRequired = schema.required.includes(key) ? '' : '?'
+      let isRequired = schema?.required?.includes(key) ? '' : '?'
       let k = `${key}${isRequired}`
       if (item.type === 'string') {
         let a = { [k]: 'string' }
@@ -41,13 +41,13 @@ function parserSchema(schema: any): any {
     }
 
     return JSON.stringify(result)
-  } else if (schema.type === 'integer' || schema.type === 'number') {
+  } else if (schema?.type === 'integer' || schema?.type === 'number') {
     return 'number'
-  } else if (schema.type === 'string') {
+  } else if (schema?.type === 'string') {
     return 'string'
-  } else if (schema.type === 'boolean') {
+  } else if (schema?.type === 'boolean') {
     return 'boolean'
-  } else if (schema.type === 'array') {
+  } else if (schema?.type === 'array') {
     const result = parserSchema(schema.items)
     return result + '[]'
   } else {

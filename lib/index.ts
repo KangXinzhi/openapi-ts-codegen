@@ -80,7 +80,7 @@ async function createFolder(url: string, folder: any) {
         // 判断get请求是分页列表
         const isPageSize = folder.get.parameters.findIndex((it: { name: string }) => it.name === 'pageSize') > -1
         if (isPageSize) {
-            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema.properties.data)
+            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema)
             const createFileContent = `
 ${defaultUseBanner}
 import { PaginationResponse } from '../common'
@@ -105,7 +105,7 @@ export default getExternalCourseList
         } else {
             // 判断get请求不是分页列表
             const requestBody = schema2ts(folder.get?.requestBody?.content?.['application/json']?.schema || {})
-            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema.properties.data)
+            const responses = schema2ts(folder.get.responses[200].content['application/json'].schema)
             const createFileContent = `
 ${defaultUseBanner}
 export type TGet${name}Request = ${requestBody}
@@ -125,7 +125,7 @@ export default get${name}
     } else if (folder.post) {
         // post请求
         const requestBody = schema2ts(folder.post.requestBody.content['application/json'].schema || {})
-        const responses = schema2ts(folder.post.responses[200].content['application/json'].schema.properties.data)
+        const responses = schema2ts(folder.post.responses[200].content['application/json'].schema)
         const createFileContent = `
 ${defaultUseBanner}
 export type TPost${name}Request = ${requestBody}

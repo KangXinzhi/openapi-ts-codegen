@@ -1,4 +1,4 @@
-const data =
+const data  = 
 {
   "openapi": "3.0.1",
   "info": {
@@ -8,69 +8,50 @@ const data =
   },
   "tags": [
     {
-      "name": "Achievement"
+      "name": "Lesson Package"
+    },
+    {
+      "name": "Lesson Package/Material"
+    },
+    {
+      "name": "Lesson Package/Material/Slide"
+    },
+    {
+      "name": "Lesson Package/Material/Slide/combined"
     }
   ],
   "paths": {
-    "/achievement/media-report-update": {
+    "/lesson-package/material/slide/combined/create": {
       "post": {
-        "summary": "更新媒体报道",
-        "x-apifox-folder": "Achievement",
-        "x-apifox-status": "testing",
+        "summary": "新建combined类型课件",
+        "x-apifox-folder": "Lesson Package/Material/Slide/combined",
+        "x-apifox-status": "developing",
         "deprecated": false,
         "description": "",
         "tags": [
-          "Achievement"
+          "Lesson Package/Material/Slide/combined"
         ],
-        "parameters": [
-          {
-            "name": "token",
-            "in": "query",
-            "description": "",
-            "required": true,
-            "example": "i9bb3IpWluLGp77JPUGzXIQ4U8KtBft4",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "partner",
-            "in": "query",
-            "description": "",
-            "required": true,
-            "example": "inside",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "content": {
-                    "type": "object",
-                    "properties": {
-                      "url": {
-                        "type": "string"
-                      }
-                    },
-                    "x-apifox-orders": [
-                      "url"
-                    ],
-                    "required": [
-                      "url"
-                    ],
-                    "x-apifox-ignore-properties": []
+                  "lessonId": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
                   }
                 },
-                "x-apifox-orders": [
-                  "content"
-                ],
                 "required": [
-                  "content"
+                  "lessonId",
+                  "name"
+                ],
+                "x-apifox-orders": [
+                  "lessonId",
+                  "name"
                 ],
                 "x-apifox-ignore-properties": []
               }
@@ -84,82 +65,9 @@ const data =
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "reqId": {
-                      "type": "string"
-                    },
-                    "code": {
-                      "type": "integer"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "position": {
-                            "type": "integer",
-                            "title": "位置"
-                          },
-                          "type": {
-                            "type": "string",
-                            "title": "模块类型",
-                            "enum": [
-                              "dashboard",
-                              "report",
-                              "chart"
-                            ],
-                            "x-apifox": {
-                              "enumDescriptions": {
-                                "dashboard": "看板",
-                                "report": "报告页面",
-                                "chart": "图表类型"
-                              }
-                            }
-                          },
-                          "title": {
-                            "type": "string",
-                            "title": "模块名称"
-                          },
-                          "note": {
-                            "type": "string",
-                            "title": "模块备注"
-                          },
-                          "extension": {
-                            "type": "object",
-                            "properties": {},
-                            "x-apifox-ignore-properties": [],
-                            "x-apifox-orders": []
-                          }
-                        },
-                        "required": [
-                          "position",
-                          "type",
-                          "title",
-                          "note",
-                          "extension"
-                        ],
-                        "x-apifox-ignore-properties": [],
-                        "x-apifox-orders": [
-                          "position",
-                          "type",
-                          "title",
-                          "note",
-                          "extension"
-                        ]
-                      }
-                    }
-                  },
-                  "required": [
-                    "reqId",
-                    "code",
-                    "data"
-                  ],
+                  "properties": {},
                   "x-apifox-ignore-properties": [],
-                  "x-apifox-orders": [
-                    "reqId",
-                    "code",
-                    "data"
-                  ]
+                  "x-apifox-orders": []
                 },
                 "examples": {}
               }
@@ -168,15 +76,15 @@ const data =
         }
       }
     },
-    "/achievement/media-report": {
+    "/lesson-package/material/slide/combined/detail": {
       "get": {
-        "summary": "获取媒体报道",
-        "x-apifox-folder": "Achievement",
-        "x-apifox-status": "testing",
+        "summary": "详情",
+        "x-apifox-folder": "Lesson Package/Material/Slide/combined",
+        "x-apifox-status": "developing",
         "deprecated": false,
         "description": "",
         "tags": [
-          "Achievement"
+          "Lesson Package/Material/Slide/combined"
         ],
         "parameters": [
           {
@@ -184,19 +92,29 @@ const data =
             "in": "query",
             "description": "",
             "required": true,
-            "example": "i9bb3IpWluLGp77JPUGzXIQ4U8KtBft4",
+            "example": "1234567890abcdef1edcba0987654321",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "partner",
+            "name": "ms",
             "in": "query",
             "description": "",
             "required": true,
-            "example": "inside",
+            "example": "0",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "32301",
+            "schema": {
+              "type": "integer"
             }
           }
         ],
@@ -208,43 +126,177 @@ const data =
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "reqId": {
-                      "type": "string"
-                    },
-                    "code": {
+                    "id": {
                       "type": "integer"
                     },
-                    "data": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "pageList": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "url": {
-                            "title": "照片地址",
-                            "type": "string"
+                          "id": {
+                            "type": "integer"
+                          },
+                          "additional": {
+                            "type": "object",
+                            "properties": {
+                              "td": {
+                                "type": "string"
+                              }
+                            },
+                            "x-apifox-orders": [
+                              "td"
+                            ],
+                            "x-apifox-ignore-properties": []
+                          },
+                          "content": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "title": "[\"image\",\"video\"]"
+                                },
+                                "url": {
+                                  "type": "string"
+                                }
+                              },
+                              "x-apifox-orders": [
+                                "type",
+                                "url"
+                              ],
+                              "x-apifox-ignore-properties": []
+                            }
                           }
                         },
-                        "required": [
-                          "url"
-                        ],
                         "x-apifox-orders": [
-                          "url"
+                          "id",
+                          "additional",
+                          "content"
                         ],
                         "x-apifox-ignore-properties": []
                       }
                     }
                   },
                   "required": [
-                    "reqId",
-                    "code",
-                    "data"
+                    "id",
+                    "name",
+                    "type"
                   ],
                   "x-apifox-orders": [
-                    "reqId",
-                    "code",
-                    "data"
+                    "id",
+                    "name",
+                    "type",
+                    "pageList"
                   ],
                   "x-apifox-ignore-properties": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lesson-package/material/slide/combined/update": {
+      "post": {
+        "summary": "更新（编辑）",
+        "x-apifox-folder": "Lesson Package/Material/Slide/combined",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Lesson Package/Material/Slide/combined"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "pageList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "content": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "title": "[\"image\",\"video\"]"
+                              },
+                              "url": {
+                                "type": "string"
+                              }
+                            },
+                            "x-apifox-orders": [
+                              "type",
+                              "url"
+                            ],
+                            "x-apifox-ignore-properties": []
+                          }
+                        },
+                        "additional": {
+                          "type": "object",
+                          "properties": {
+                            "td_zh": {
+                              "type": "string"
+                            }
+                          },
+                          "x-apifox-orders": [
+                            "td_zh"
+                          ],
+                          "x-apifox-ignore-properties": []
+                        }
+                      },
+                      "x-apifox-orders": [
+                        "id",
+                        "content",
+                        "additional"
+                      ],
+                      "x-apifox-ignore-properties": []
+                    }
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "x-apifox-orders": [
+                  "id",
+                  "pageList"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
                 },
                 "examples": {}
               }

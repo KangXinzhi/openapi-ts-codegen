@@ -7,7 +7,7 @@ function parserSchema(schema: any) {
 
     for (let key in properties) {
       let item = properties[key]
-      let isRequired = schema.required.includes(key) ? '' : '?'
+      let isRequired = schema?.required?.includes(key) ? '' : '?'
       let k = `${key}${isRequired}`
       if (item.type === 'string') {
         let a = { [k]: 'string' }
