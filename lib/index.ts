@@ -15,6 +15,7 @@ import { uskidFrontendCommon } from '@/config.json'
 void async function () {
     const projectName = await userInput([`请输入项目名称`])
     if (!projectName) return
+    if (!await $`ls dist`) await $`mkdir dist`
     await cd(`./dist`)
     await $`mkdir ${projectName}`
     await cd(`${projectName}`)
@@ -124,8 +125,9 @@ export default get${name}
         }
     } else if (folder.post) {
         // post请求
-        const requestBody = schema2ts(folder.post.requestBody.content['application/json'].schema || {})
-        const responses = schema2ts(folder.post.responses[200].content['application/json'].schema)
+        const requestBody = schema2ts(folder.post.requestBody?.content?.['application/json']?.schema || {})
+        const responses = schema2ts(folder.post.responses?.[200]?.content?.['application/json']?.schema || {})
+
         const createFileContent = `
 ${defaultUseBanner}
 export type TPost${name}Request = ${requestBody}

@@ -31,6 +31,7 @@ Codegen
 	3.prettier  
 
 ### 使用流程：
-	1.将apifox导出的文件地址，复制到项目的data.ts文件中
-	2.运行脚本npm run create-api
-	3.输入项目名称，生成根文件夹
+	1.npm install
+	2.将apifox导出的文件地址，复制到项目的data.ts文件中
+	3.运行脚本npm run create-api
+	4.输入项目名称，生成根文件夹
